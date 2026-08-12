@@ -3,6 +3,5 @@ numpy
 pandas
 torch
 torch-geometric
-ultralytics
 folium
 gunicorn

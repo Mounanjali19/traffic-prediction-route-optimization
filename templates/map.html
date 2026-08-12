@@ -8,9 +8,8 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Traffic Map
-    </title>
+    <title>Traffic Map</title>
+
 
     <style>
 
@@ -19,112 +18,187 @@
         }
 
         body {
+
             margin: 0;
+
             font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #1b2745,
+                    #0b1120
+                );
+
+            color: #e5e7eb;
+
         }
+
+
+        nav {
+
+            height: 82px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 42px;
+
+            background: #0a1020;
+
+            border-bottom:
+                1px solid #26324b;
+
+        }
+
+
+        .logo {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            margin-right: auto;
+
+        }
+
+
+        .logo span {
+
+            color: #3b82f6;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 45px;
+
+        }
+
+
+        .nav-links a {
+
+            color: #9ca3af;
+
+            text-decoration: none;
+
+            font-size: 18px;
+
+        }
+
+
+        .nav-links a:hover {
+
+            color: #3b82f6;
+
+        }
+
 
         .container {
-            max-width: 1200px;
+
+            max-width: 1400px;
+
             margin: auto;
-            padding: 40px 25px;
+
+            padding: 45px 35px;
+
         }
 
-        .nav {
-            margin-bottom: 25px;
-        }
-
-        .nav a {
-            color: #38bdf8;
-            text-decoration: none;
-        }
 
         h1 {
+
+            font-size: 42px;
+
             margin-bottom: 10px;
+
         }
+
 
         .subtitle {
-            color: #94a3b8;
-            line-height: 1.6;
+
+            color: #9ca3af;
+
+            margin-bottom: 30px;
+
         }
+
 
         .panel {
-            margin-top: 25px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 25px;
+
+            background: #141c32;
+
+            border:
+                1px solid #28334d;
+
+            border-radius: 14px;
+
+            padding: 30px;
+
         }
+
 
         button {
-            padding: 13px 22px;
-            border: none;
-            border-radius: 7px;
-            background: #2563eb;
+
+            padding: 14px 28px;
+
+            background: #3b82f6;
+
             color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
             font-weight: bold;
+
             cursor: pointer;
+
         }
 
-        button:hover {
-            background: #1d4ed8;
-        }
 
         #status {
-            margin-top: 15px;
-            color: #38bdf8;
+
+            margin-top: 20px;
+
+            color: #60a5fa;
+
         }
 
-        .map-container {
-            margin-top: 25px;
-            height: 650px;
+
+        .map-box {
+
+            margin-top: 30px;
+
+            width: 100%;
+
+            height: 700px;
+
+            border:
+                1px solid #28334d;
+
             border-radius: 12px;
+
             overflow: hidden;
-            border: 1px solid #334155;
-            background: #020617;
+
+            display: none;
+
         }
+
 
         iframe {
+
             width: 100%;
+
             height: 100%;
+
             border: none;
-        }
 
-        .legend {
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #cbd5e1;
-        }
-
-        .dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-        }
-
-        .green {
-            background: green;
-        }
-
-        .orange {
-            background: orange;
-        }
-
-        .red {
-            background: red;
-        }
-
-        .blue {
-            background: blue;
         }
 
     </style>
@@ -135,115 +209,76 @@
 <body>
 
 
-<div class="container">
+<nav>
 
+    <div class="logo">
 
-    <!-- =====================================================
-         NAVIGATION
-         ===================================================== -->
-
-    <div class="nav">
-
-        <a href="/">
-            ← Back to Home
-        </a>
+        Traffic<span>AI</span>
 
     </div>
 
 
-    <!-- =====================================================
-         HEADER
-         ===================================================== -->
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/predict">
+            Predictions
+        </a>
+
+        <a href="/map">
+            Map
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<div class="container">
+
 
     <h1>
-        🗺️ Traffic Prediction Map
+        Full Traffic Route Map
     </h1>
+
 
     <p class="subtitle">
 
-        Visualize predicted traffic conditions across
-        the selected Electronic City / Bommasandra road
-        network.
+        Visualize the predicted traffic conditions
+        generated by the Hybrid GAT-LSTM model.
 
     </p>
 
 
-    <!-- =====================================================
-         CONTROL PANEL
-         ===================================================== -->
-
     <div class="panel">
+
 
         <button
             onclick="generateMap()"
         >
-            Generate Traffic Map
+            Generate Full Traffic Map
         </button>
 
 
         <div id="status"></div>
 
 
-        <!-- =================================================
-             LEGEND
-             ================================================= -->
+        <div
+            id="mapBox"
+            class="map-box"
+        >
 
-        <div class="legend">
-
-            <div class="legend-item">
-
-                <span class="dot green"></span>
-
-                Faster traffic
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <span class="dot orange"></span>
-
-                Moderate traffic
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <span class="dot red"></span>
-
-                Slower traffic
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <span class="dot blue"></span>
-
-                Recommended road
-
-            </div>
+            <iframe
+                id="trafficMap"
+                title="Traffic map"
+            ></iframe>
 
         </div>
 
-    </div>
-
-
-    <!-- =====================================================
-         MAP
-         ===================================================== -->
-
-    <div
-        id="mapContainer"
-        class="map-container"
-        style="display:none;"
-    >
-
-        <iframe
-            id="trafficMap"
-            title="Traffic prediction map"
-        ></iframe>
 
     </div>
 
@@ -251,13 +286,12 @@
 </div>
 
 
+
 <script>
 
-    // ========================================================
-    // GENERATE TRAFFIC MAP
-    // ========================================================
 
     async function generateMap() {
+
 
         const status =
             document.getElementById(
@@ -265,9 +299,9 @@
             );
 
 
-        const mapContainer =
+        const mapBox =
             document.getElementById(
-                "mapContainer"
+                "mapBox"
             );
 
 
@@ -278,17 +312,11 @@
 
 
         status.innerText =
-            "Generating traffic prediction map...";
+            "Generating map from the latest prediction...";
 
 
         try {
 
-            // ------------------------------------------------
-            // Ask Flask to generate the map.
-            //
-            // The backend uses the most recent prediction
-            // generated by the Hybrid GAT-LSTM model.
-            // ------------------------------------------------
 
             const response =
                 await fetch(
@@ -298,8 +326,10 @@
                         method: "POST",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json"
+
                         },
 
                         body: JSON.stringify({})
@@ -316,21 +346,19 @@
 
                 throw new Error(
                     data.error ||
-                    "Unable to generate map."
+                    "Map generation failed."
                 );
 
             }
 
 
-            // ------------------------------------------------
-            // Load the generated Folium map inside iframe.
-            // ------------------------------------------------
-
             map.src =
-                data.map_url;
+                data.map_url
+                + "?t="
+                + Date.now();
 
 
-            mapContainer.style.display =
+            mapBox.style.display =
                 "block";
 
 
@@ -340,10 +368,11 @@
 
         }
 
-        catch (error) {
+        catch(error) {
 
             status.innerText =
-                error.message;
+                "Error: "
+                + error.message;
 
         }
 

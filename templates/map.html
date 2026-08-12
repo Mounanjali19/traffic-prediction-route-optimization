@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Traffic Map
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 25px;
+        }
+
+        .nav {
+            margin-bottom: 25px;
+        }
+
+        .nav a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .panel {
+            margin-top: 25px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        button {
+            padding: 13px 22px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #status {
+            margin-top: 15px;
+            color: #38bdf8;
+        }
+
+        .map-container {
+            margin-top: 25px;
+            height: 650px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            background: #020617;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .legend {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #cbd5e1;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .green {
+            background: green;
+        }
+
+        .orange {
+            background: orange;
+        }
+
+        .red {
+            background: red;
+        }
+
+        .blue {
+            background: blue;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <div class="nav">
+
+        <a href="/">
+            ← Back to Home
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <h1>
+        🗺️ Traffic Prediction Map
+    </h1>
+
+    <p class="subtitle">
+
+        Visualize predicted traffic conditions across
+        the selected Electronic City / Bommasandra road
+        network.
+
+    </p>
+
+
+    <!-- =====================================================
+         CONTROL PANEL
+         ===================================================== -->
+
+    <div class="panel">
+
+        <button
+            onclick="generateMap()"
+        >
+            Generate Traffic Map
+        </button>
+
+
+        <div id="status"></div>
+
+
+        <!-- =================================================
+             LEGEND
+             ================================================= -->
+
+        <div class="legend">
+
+            <div class="legend-item">
+
+                <span class="dot green"></span>
+
+                Faster traffic
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="dot orange"></span>
+
+                Moderate traffic
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="dot red"></span>
+
+                Slower traffic
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="dot blue"></span>
+
+                Recommended road
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAP
+         ===================================================== -->
+
+    <div
+        id="mapContainer"
+        class="map-container"
+        style="display:none;"
+    >
+
+        <iframe
+            id="trafficMap"
+            title="Traffic prediction map"
+        ></iframe>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    // ========================================================
+    // GENERATE TRAFFIC MAP
+    // ========================================================
+
+    async function generateMap() {
+
+        const status =
+            document.getElementById(
+                "status"
+            );
+
+
+        const mapContainer =
+            document.getElementById(
+                "mapContainer"
+            );
+
+
+        const map =
+            document.getElementById(
+                "trafficMap"
+            );
+
+
+        status.innerText =
+            "Generating traffic prediction map...";
+
+
+        try {
+
+            // ------------------------------------------------
+            // Ask Flask to generate the map.
+            //
+            // The backend uses the most recent prediction
+            // generated by the Hybrid GAT-LSTM model.
+            // ------------------------------------------------
+
+            const response =
+                await fetch(
+                    "/api/route_map_full",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({})
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to generate map."
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // Load the generated Folium map inside iframe.
+            // ------------------------------------------------
+
+            map.src =
+                data.map_url;
+
+
+            mapContainer.style.display =
+                "block";
+
+
+            status.innerText =
+                "Traffic map generated successfully.";
+
+
+        }
+
+        catch (error) {
+
+            status.innerText =
+                error.message;
+
+        }
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

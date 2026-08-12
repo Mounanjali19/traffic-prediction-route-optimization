@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Traffic Prediction
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 25px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 35px;
+        }
+
+        .panel {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 7px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 13px 25px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .status {
+            margin-top: 20px;
+            color: #38bdf8;
+        }
+
+        .results {
+            margin-top: 35px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #334155;
+            text-align: left;
+        }
+
+        th {
+            color: #38bdf8;
+        }
+
+        .speed {
+            font-weight: bold;
+        }
+
+        .fast {
+            color: #22c55e;
+        }
+
+        .medium {
+            color: #f59e0b;
+        }
+
+        .slow {
+            color: #ef4444;
+        }
+
+        .nav {
+            margin-bottom: 30px;
+        }
+
+        .nav a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <div class="nav">
+
+        <a href="/">
+            ← Back to Home
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <h1>
+        🚦 Traffic Speed Prediction
+    </h1>
+
+    <p class="subtitle">
+
+        Predict traffic speed across the selected road
+        network using the Hybrid GAT-LSTM model.
+
+    </p>
+
+
+    <!-- =====================================================
+         INPUT PANEL
+         ===================================================== -->
+
+    <div class="panel">
+
+        <div class="form-grid">
+
+
+            <div>
+
+                <label for="date">
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    id="date"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label for="time">
+                    Time
+                </label>
+
+                <input
+                    type="time"
+                    id="time"
+                    value="10:00"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label for="scenario">
+                    Traffic Scenario
+                </label>
+
+                <select id="scenario">
+
+                    <option value="normal">
+                        Normal
+                    </option>
+
+                    <option value="rain">
+                        Rain
+                    </option>
+
+                    <option value="event">
+                        Event
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            onclick="runPrediction()"
+        >
+            Predict Traffic
+        </button>
+
+
+        <div
+            id="status"
+            class="status"
+        ></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RESULTS
+         ===================================================== -->
+
+    <div
+        id="results"
+        class="results"
+        style="display:none;"
+    >
+
+        <div class="panel">
+
+            <h2>
+                Predicted Road Speeds
+            </h2>
+
+            <p>
+                Predicted traffic speed for each selected
+                road segment.
+            </p>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Road
+                        </th>
+
+                        <th>
+                            Predicted Speed
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="predictionTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    // ========================================================
+    // RUN TRAFFIC PREDICTION
+    // ========================================================
+
+    async function runPrediction() {
+
+        const date =
+            document.getElementById(
+                "date"
+            ).value;
+
+
+        const time =
+            document.getElementById(
+                "time"
+            ).value;
+
+
+        const scenario =
+            document.getElementById(
+                "scenario"
+            ).value;
+
+
+        const status =
+            document.getElementById(
+                "status"
+            );
+
+
+        const results =
+            document.getElementById(
+                "results"
+            );
+
+
+        status.innerText =
+            "Running Hybrid GAT-LSTM prediction...";
+
+
+        results.style.display =
+            "none";
+
+
+        try {
+
+            // ------------------------------------------------
+            // Send prediction request to Flask backend.
+            // ------------------------------------------------
+
+            const response =
+                await fetch(
+                    "/api/hybrid_predict",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            date: date,
+
+                            time: time,
+
+                            scenario: scenario
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Prediction failed."
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // Display prediction results.
+            // ------------------------------------------------
+
+            const table =
+                document.getElementById(
+                    "predictionTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+            for (
+                let i = 0;
+                i < data.roads.length;
+                i++
+            ) {
+
+                const road =
+                    data.roads[i];
+
+
+                const speed =
+                    Number(
+                        data.speeds[i]
+                    );
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                let speedClass =
+                    "medium";
+
+
+                if (speed >= 25) {
+
+                    speedClass =
+                        "fast";
+
+                }
+
+                else if (speed < 18) {
+
+                    speedClass =
+                        "slow";
+
+                }
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${road}
+                    </td>
+
+                    <td class="speed ${speedClass}">
+                        ${speed.toFixed(2)}
+                        km/h
+                    </td>
+
+                `;
+
+
+                table.appendChild(
+                    row
+                );
+
+            }
+
+
+            results.style.display =
+                "block";
+
+
+            status.innerText =
+                "Prediction completed successfully.";
+
+
+        }
+
+        catch (error) {
+
+            status.innerHTML =
+                `<span class="error">
+                    ${error.message}
+                </span>`;
+
+        }
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

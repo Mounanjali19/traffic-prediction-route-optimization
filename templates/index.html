@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Traffic Prediction & Route Optimization
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 60px 25px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: auto;
+            color: #94a3b8;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #1e293b;
+            color: #38bdf8;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .buttons {
+            margin-top: 35px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 24px;
+            margin: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+        }
+
+        .button.secondary {
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+
+        .section {
+            margin-top: 60px;
+        }
+
+        .section h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #38bdf8;
+        }
+
+        .card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .architecture {
+            background: #020617;
+            border: 1px solid #334155;
+            padding: 30px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .architecture pre {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        footer {
+            margin-top: 80px;
+            padding-top: 25px;
+            border-top: 1px solid #334155;
+            text-align: center;
+            color: #64748b;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =====================================================
+         HERO SECTION
+         ===================================================== -->
+
+    <section class="hero">
+
+        <div class="badge">
+            Spatio-Temporal Deep Learning
+        </div>
+
+        <h1>
+            🚦 Traffic Prediction & Route Optimization
+        </h1>
+
+        <p>
+
+            A deep learning system that combines
+            Graph Attention Networks and LSTM to model
+            spatial relationships between connected roads
+            and temporal traffic patterns.
+
+        </p>
+
+
+        <div class="buttons">
+
+            <a
+                href="/predict"
+                class="button"
+            >
+                Traffic Prediction
+            </a>
+
+
+            <a
+                href="/map"
+                class="button secondary"
+            >
+                View Traffic Map
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PROJECT OVERVIEW
+         ===================================================== -->
+
+    <section class="section">
+
+        <h2>
+            What does the system do?
+        </h2>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <h3>
+                    🗺️ Road Graph
+                </h3>
+
+                <p>
+
+                    The Electronic City / Bommasandra
+                    road network is represented as a graph
+                    where road segments form the graph nodes
+                    and connected roads form graph edges.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    🕸️ GAT
+                </h3>
+
+                <p>
+
+                    Graph Attention Networks learn spatial
+                    dependencies between neighboring road
+                    segments.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    ⏱️ LSTM
+                </h3>
+
+                <p>
+
+                    LSTM processes historical traffic
+                    observations to learn temporal patterns
+                    in traffic conditions.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    🛣️ Route Optimization
+                </h3>
+
+                <p>
+
+                    Predicted future road speeds are used
+                    to identify preferable roads and support
+                    route selection.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ARCHITECTURE
+         ===================================================== -->
+
+    <section class="section">
+
+        <h2>
+            System Architecture
+        </h2>
+
+
+        <div class="architecture">
+
+<pre>
+OpenStreetMap / OSMnx
+          │
+          ▼
+Electronic City Road Network
+          │
+          ▼
+30 Selected Road Segments
+          │
+          ▼
+5-Minute Traffic History
+          │
+          ▼
+12 Historical Time Steps
+          │
+          ▼
+       GAT
+Spatial Dependencies
+          │
+          ▼
+       LSTM
+Temporal Dependencies
+          │
+          ▼
+      Fusion
+    128 + 64
+          │
+          ▼
+30-Minute Speed Prediction
+          │
+          ▼
+ Route / Map Visualization
+</pre>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MODEL DETAILS
+         ===================================================== -->
+
+    <section class="section">
+
+        <h2>
+            Model
+        </h2>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <h3>
+                    Input
+                </h3>
+
+                <p>
+
+                    12 historical time steps ×
+                    30 road segments ×
+                    8 traffic features.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    GAT
+                </h3>
+
+                <p>
+
+                    Two Graph Attention layers with
+                    64 hidden dimensions and
+                    four attention heads.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    LSTM
+                </h3>
+
+                <p>
+
+                    A 128-dimensional LSTM models
+                    the temporal evolution of each
+                    road segment.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Output
+                </h3>
+
+                <p>
+
+                    One predicted future speed for
+                    every selected road segment.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         TECHNOLOGY STACK
+         ===================================================== -->
+
+    <section class="section">
+
+        <h2>
+            Technology Stack
+        </h2>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <h3>
+                    Machine Learning
+                </h3>
+
+                <p>
+                    Python · PyTorch · NumPy · Pandas
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Graph Learning
+                </h3>
+
+                <p>
+                    PyTorch Geometric · GAT
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Geospatial
+                </h3>
+
+                <p>
+                    OpenStreetMap · OSMnx · NetworkX
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Backend
+                </h3>
+
+                <p>
+                    Flask · Gunicorn
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+
+        Traffic Prediction & Route Optimization
+        <br>
+        Hybrid GAT-LSTM
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>

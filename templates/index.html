@@ -8,9 +8,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Traffic Prediction & Route Optimization
-    </title>
+    <title>TrafficAI</title>
 
     <style>
 
@@ -21,116 +19,257 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
+            background:
+                linear-gradient(
+                    120deg,
+                    #1b2745,
+                    #0b1120
+                );
+            color: #e5e7eb;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 60px 25px;
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 82px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 42px;
+
+            background: #0a1020;
+
+            border-bottom:
+                1px solid #26324b;
         }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+
+            margin-right: auto;
+        }
+
+        .logo span {
+            color: #3b82f6;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 45px;
+        }
+
+        .nav-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
+
+        /* ================= HERO ================= */
 
         .hero {
-            text-align: center;
-            padding: 60px 20px;
+            min-height: 470px;
+
+            display: flex;
+            align-items: center;
+
+            max-width: 1450px;
+
+            margin: auto;
+
+            padding: 70px 80px;
+        }
+
+        .hero-left {
+            width: 62%;
         }
 
         .hero h1 {
-            font-size: 46px;
+            font-size: 48px;
+
             margin-bottom: 20px;
+
+            line-height: 1.15;
         }
 
         .hero p {
-            max-width: 750px;
-            margin: auto;
-            color: #94a3b8;
-            font-size: 18px;
-            line-height: 1.7;
+            font-size: 19px;
+
+            line-height: 1.6;
+
+            color: #aab4c7;
+
+            max-width: 650px;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: #1e293b;
-            color: #38bdf8;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
+        /* ================= BUTTONS ================= */
 
         .buttons {
-            margin-top: 35px;
+            margin-top: 32px;
         }
 
-        .button {
+        .btn {
             display: inline-block;
-            padding: 14px 24px;
-            margin: 8px;
-            border-radius: 8px;
+
+            padding: 14px 25px;
+
+            margin-right: 10px;
+
+            border-radius: 9px;
+
             text-decoration: none;
-            background: #2563eb;
-            color: white;
+
+            font-size: 17px;
+
             font-weight: bold;
         }
 
-        .button.secondary {
-            background: #1e293b;
-            border: 1px solid #334155;
+        .primary {
+            background: #3b82f6;
+
+            color: white;
+
+            box-shadow:
+                0 0 20px
+                rgba(59,130,246,.25);
         }
 
-        .section {
-            margin-top: 60px;
+        .secondary {
+            border:
+                1px solid #3b82f6;
+
+            color: #3b82f6;
         }
 
-        .section h2 {
-            font-size: 30px;
-            margin-bottom: 20px;
-        }
+        /* ================= FEATURE CARDS ================= */
 
-        .cards {
+        .features {
+
+            width: 38%;
+
             display: grid;
+
             grid-template-columns:
-                repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+                1fr 1fr;
+
+            gap: 15px;
         }
 
         .card {
-            background: #1e293b;
-            padding: 25px;
+
+            padding: 22px;
+
+            min-height: 125px;
+
+            background: #141c32;
+
+            border:
+                1px solid #28334d;
+
             border-radius: 12px;
-            border: 1px solid #334155;
         }
 
         .card h3 {
+
             margin-top: 0;
-            color: #38bdf8;
+
+            color: #3b82f6;
+
+            font-size: 23px;
         }
 
         .card p {
-            color: #94a3b8;
-            line-height: 1.6;
+
+            color: #9ca3af;
+
+            margin-bottom: 0;
+
         }
 
-        .architecture {
-            background: #020617;
-            border: 1px solid #334155;
-            padding: 30px;
-            border-radius: 12px;
-            overflow-x: auto;
+        /* ================= INFO ================= */
+
+        .info {
+
+            border-top:
+                1px solid #26324b;
+
+            padding:
+                55px 80px;
+
+            text-align: center;
         }
 
-        .architecture pre {
-            color: #cbd5e1;
+        .info h2 {
+
+            font-size: 30px;
+
+        }
+
+        .info p {
+
+            color: #9ca3af;
+
+            max-width: 750px;
+
+            margin: auto;
+
             line-height: 1.7;
         }
 
+        /* ================= FOOTER ================= */
+
         footer {
-            margin-top: 80px;
-            padding-top: 25px;
-            border-top: 1px solid #334155;
+
             text-align: center;
-            color: #64748b;
+
+            padding: 30px;
+
+            color: #718096;
+
+            border-top:
+                1px solid #26324b;
+        }
+
+        @media(max-width: 900px) {
+
+            .hero {
+
+                flex-direction: column;
+
+                padding: 50px 30px;
+
+            }
+
+            .hero-left,
+            .features {
+
+                width: 100%;
+
+            }
+
+            .features {
+
+                margin-top: 40px;
+
+            }
+
+            nav {
+
+                padding: 0 20px;
+
+            }
+
+            .nav-links {
+
+                gap: 15px;
+
+            }
+
         }
 
     </style>
@@ -140,29 +279,57 @@
 
 <body>
 
-<div class="container">
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+    <div class="logo">
+
+        Traffic<span>AI</span>
+
+    </div>
 
 
-    <!-- =====================================================
-         HERO SECTION
-         ===================================================== -->
+    <div class="nav-links">
 
-    <section class="hero">
+        <a href="/">
+            Home
+        </a>
 
-        <div class="badge">
-            Spatio-Temporal Deep Learning
-        </div>
+        <a href="/predict">
+            Predictions
+        </a>
+
+        <a href="/map">
+            Map
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+
+    <div class="hero-left">
 
         <h1>
-            🚦 Traffic Prediction & Route Optimization
+            Traffic Prediction &
+            Route Intelligence
         </h1>
+
 
         <p>
 
-            A deep learning system that combines
-            Graph Attention Networks and LSTM to model
-            spatial relationships between connected roads
-            and temporal traffic patterns.
+            Predict traffic speeds across a connected
+            road network using a Hybrid GAT-LSTM model
+            that learns both spatial and temporal
+            traffic patterns.
 
         </p>
 
@@ -171,337 +338,116 @@
 
             <a
                 href="/predict"
-                class="button"
+                class="btn primary"
             >
-                Traffic Prediction
+                Start Predicting
             </a>
 
 
             <a
                 href="/map"
-                class="button secondary"
+                class="btn secondary"
             >
-                View Traffic Map
+                View Map
             </a>
 
         </div>
 
-    </section>
+    </div>
 
 
 
-    <!-- =====================================================
-         PROJECT OVERVIEW
-         ===================================================== -->
+    <!-- ================= MODEL CARDS ================= -->
 
-    <section class="section">
-
-        <h2>
-            What does the system do?
-        </h2>
+    <div class="features">
 
 
-        <div class="cards">
+        <div class="card">
 
+            <h3>
+                GAT
+            </h3>
 
-            <div class="card">
-
-                <h3>
-                    🗺️ Road Graph
-                </h3>
-
-                <p>
-
-                    The Electronic City / Bommasandra
-                    road network is represented as a graph
-                    where road segments form the graph nodes
-                    and connected roads form graph edges.
-
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    🕸️ GAT
-                </h3>
-
-                <p>
-
-                    Graph Attention Networks learn spatial
-                    dependencies between neighboring road
-                    segments.
-
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    ⏱️ LSTM
-                </h3>
-
-                <p>
-
-                    LSTM processes historical traffic
-                    observations to learn temporal patterns
-                    in traffic conditions.
-
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    🛣️ Route Optimization
-                </h3>
-
-                <p>
-
-                    Predicted future road speeds are used
-                    to identify preferable roads and support
-                    route selection.
-
-                </p>
-
-            </div>
+            <p>
+                Spatial road relationships
+            </p>
 
         </div>
 
-    </section>
 
+        <div class="card">
 
+            <h3>
+                LSTM
+            </h3>
 
-    <!-- =====================================================
-         ARCHITECTURE
-         ===================================================== -->
-
-    <section class="section">
-
-        <h2>
-            System Architecture
-        </h2>
-
-
-        <div class="architecture">
-
-<pre>
-OpenStreetMap / OSMnx
-          │
-          ▼
-Electronic City Road Network
-          │
-          ▼
-30 Selected Road Segments
-          │
-          ▼
-5-Minute Traffic History
-          │
-          ▼
-12 Historical Time Steps
-          │
-          ▼
-       GAT
-Spatial Dependencies
-          │
-          ▼
-       LSTM
-Temporal Dependencies
-          │
-          ▼
-      Fusion
-    128 + 64
-          │
-          ▼
-30-Minute Speed Prediction
-          │
-          ▼
- Route / Map Visualization
-</pre>
+            <p>
+                Temporal traffic patterns
+            </p>
 
         </div>
 
-    </section>
 
+        <div class="card">
 
+            <h3>
+                Hybrid
+            </h3>
 
-    <!-- =====================================================
-         MODEL DETAILS
-         ===================================================== -->
-
-    <section class="section">
-
-        <h2>
-            Model
-        </h2>
-
-
-        <div class="cards">
-
-
-            <div class="card">
-
-                <h3>
-                    Input
-                </h3>
-
-                <p>
-
-                    12 historical time steps ×
-                    30 road segments ×
-                    8 traffic features.
-
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    GAT
-                </h3>
-
-                <p>
-
-                    Two Graph Attention layers with
-                    64 hidden dimensions and
-                    four attention heads.
-
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    LSTM
-                </h3>
-
-                <p>
-
-                    A 128-dimensional LSTM models
-                    the temporal evolution of each
-                    road segment.
-
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    Output
-                </h3>
-
-                <p>
-
-                    One predicted future speed for
-                    every selected road segment.
-
-                </p>
-
-            </div>
+            <p>
+                30-road GAT-LSTM prediction
+            </p>
 
         </div>
 
-    </section>
 
+        <div class="card">
 
+            <h3>
+                Route
+            </h3>
 
-    <!-- =====================================================
-         TECHNOLOGY STACK
-         ===================================================== -->
-
-    <section class="section">
-
-        <h2>
-            Technology Stack
-        </h2>
-
-
-        <div class="cards">
-
-
-            <div class="card">
-
-                <h3>
-                    Machine Learning
-                </h3>
-
-                <p>
-                    Python · PyTorch · NumPy · Pandas
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    Graph Learning
-                </h3>
-
-                <p>
-                    PyTorch Geometric · GAT
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    Geospatial
-                </h3>
-
-                <p>
-                    OpenStreetMap · OSMnx · NetworkX
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    Backend
-                </h3>
-
-                <p>
-                    Flask · Gunicorn
-                </p>
-
-            </div>
+            <p>
+                Select road using predicted speeds
+            </p>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
 
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
+<!-- ================= INFORMATION ================= -->
 
-    <footer>
+<section class="info">
 
-        Traffic Prediction & Route Optimization
-        <br>
-        Hybrid GAT-LSTM
-
-    </footer>
+    <h2>
+        Spatio-Temporal Traffic Prediction
+    </h2>
 
 
-</div>
+    <p>
+
+        The system represents road segments as nodes
+        in a graph. Graph Attention Networks model
+        spatial dependencies between connected roads,
+        while an LSTM processes historical traffic
+        representations to capture temporal behavior.
+
+    </p>
+
+</section>
+
+
+
+<footer>
+
+    TrafficAI · Hybrid GAT-LSTM
+
+</footer>
+
 
 </body>
 
